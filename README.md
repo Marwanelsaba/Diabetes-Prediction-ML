@@ -74,38 +74,42 @@ Target Classes
 
 ---
 
-# 🏗 Project Workflow
+## 🏗️ Project Workflow
 
-```text
-                Dataset
-                    │
-                    ▼
-          Data Cleaning & Preprocessing
-                    │
-                    ▼
-        Exploratory Data Analysis (EDA)
-                    │
-                    ▼
-          Feature Engineering
-                    │
-                    ▼
-          Train/Test Split (85/15)
-                    │
-                    ▼
-     Hyperparameter Optimization
-                    │
-                    ▼
-      Train Machine Learning Models
-                    │
-                    ▼
-         Performance Evaluation
-                    │
-                    ▼
-        Compare Model Performance
+```mermaid
+flowchart TD
+
+    A["📄 Diabetes.csv"] --> B["🔍 Data Inspection<br/>Missing Values, Duplicates,<br/>Data Types"]
+
+    B --> C["🧹 Data Cleaning<br/>Normalize CLASS & Gender<br/>Remove Invalid Values"]
+
+    C --> D["📊 Exploratory Data Analysis (EDA)<br/>Histograms, Boxplots,<br/>Correlation Heatmap,<br/>Regression & Pair Plots"]
+
+    D --> E["⚙️ Feature Engineering<br/>Encoding<br/>Scaling<br/>Discretization"]
+
+    E --> F["✂️ Stratified Train/Test Split<br/>85% Train • 15% Test"]
+
+    F --> G["⚖️ Handle Class Imbalance<br/>SMOTE Oversampling"]
+
+    G --> H["🤖 Machine Learning Models<br/>Decision Tree<br/>Logistic Regression<br/>Random Forest<br/>SVM<br/>KNN<br/>Naive Bayes"]
+
+    H --> I["🔧 Hyperparameter Optimization<br/>GridSearchCV<br/>5-Fold Cross Validation"]
+
+    I --> J["📈 Model Evaluation<br/>Accuracy<br/>Precision<br/>Recall<br/>F1 Score<br/>Confusion Matrix"]
+
+    J --> K["📊 Feature Importance<br/>Decision Tree<br/>Logistic Regression"]
+
+    K --> L["🏆 Performance Comparison<br/>Select Best Model"]
+
+    style A fill:#E3F2FD,stroke:#1565C0
+    style D fill:#FFF3E0,stroke:#EF6C00
+    style F fill:#E8F5E9,stroke:#2E7D32
+    style G fill:#FFF8E1,stroke:#F9A825
+    style H fill:#EDE7F6,stroke:#5E35B1
+    style I fill:#FCE4EC,stroke:#AD1457
+    style J fill:#E0F7FA,stroke:#00838F
+    style L fill:#C8E6C9,stroke:#1B5E20
 ```
-
----
-
 # 🔍 Exploratory Data Analysis
 
 Several visualization techniques were used to better understand the dataset.
@@ -150,8 +154,20 @@ Several visualization techniques were used to better understand the dataset.
 
 ## 📷 Feature Relationships
 
+The following regression plots illustrate relationships between key medical features associated with diabetes.
+
 <p align="center">
-<img src="images/pairplot.png" width="900">
+  <img src="images/pairplot1.png" width="45%">
+  <img src="images/pairplot2.png" width="45%">
+</p>
+
+<p align="center">
+  <img src="images/pairplot3.png" width="45%">
+  <img src="images/pairplot4.png" width="45%">
+</p>
+
+<p align="center">
+  <img src="images/pairplot5.png" width="45%">
 </p>
 
 ---
