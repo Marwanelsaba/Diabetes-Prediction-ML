@@ -74,6 +74,58 @@ Target Classes
 
 ---
 
+# 📂 Dataset
+
+The dataset contains **1000 patient records** collected from medical examinations.
+
+### Target Classes
+
+- **N** → Normal
+- **P** → Prediabetic
+- **Y** → Diabetic
+
+---
+
+## 📋 Dataset Feature Definitions
+
+The dataset contains demographic information together with clinical and laboratory measurements commonly used to assess diabetes and related metabolic conditions.
+
+| Feature | Type | Description | Importance |
+|---------|------|-------------|------------|
+| **Gender** | Categorical | Patient's biological sex | Influences metabolism and diabetes risk |
+| **AGE** | Numerical | Patient age (years) | Diabetes risk generally increases with age |
+| **Urea** | Numerical | Blood urea concentration | Reflects kidney function |
+| **Cr** | Numerical | Blood creatinine level | Important indicator of kidney health |
+| **HbA1c** | Numerical | Average blood glucose over the previous 2–3 months | Primary clinical indicator for diabetes diagnosis |
+| **Chol** | Numerical | Total cholesterol level | Associated with cardiovascular complications |
+| **TG** | Numerical | Triglyceride concentration | Elevated values are linked to metabolic syndrome |
+| **HDL** | Numerical | High-density lipoprotein ("good" cholesterol) | Lower levels increase cardiovascular risk |
+| **LDL** | Numerical | Low-density lipoprotein ("bad" cholesterol) | Higher levels contribute to heart disease risk |
+| **VLDL** | Numerical | Very-low-density lipoprotein | Associated with lipid metabolism disorders |
+| **BMI** | Numerical | Body Mass Index (kg/m²) | Strong indicator of obesity and diabetes risk |
+| **CLASS** | Target | Diabetes classification (N, P, Y) | Variable predicted by the machine learning models |
+
+> **Note**
+>
+> - The **ID** and **No_Pation** columns were excluded before model training because they are unique identifiers and do not contribute to prediction.
+> - All predictive models were trained using the remaining medical and demographic features.
+
+---
+
+### 📊 Dataset Summary
+
+| Property | Value |
+|----------|------:|
+| Number of Samples | **1000** |
+| Predictive Features | **11** |
+| Target Classes | **3** |
+| Numerical Features | **10** |
+| Categorical Features | **1** |
+| Missing Values | **0** |
+| Duplicate Records | **0** |
+
+---
+
 ## 🏗️ Project Workflow
 
 ```mermaid
