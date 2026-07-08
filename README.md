@@ -30,6 +30,24 @@ Six different machine learning algorithms were implemented and compared to deter
 
 ---
 
+## 📑 Table of Contents
+
+- [Objectives](#-objectives)
+- [Dataset](#-dataset)
+- [Project Workflow](#-project-workflow)
+- [Exploratory Data Analysis](#-exploratory-data-analysis)
+- [Data Preprocessing](#-data-preprocessing)
+- [Machine Learning Models](#-machine-learning-models)
+- [Hyperparameter Optimization](#-hyperparameter-optimization)
+- [Evaluation Metrics](#-model-evaluation-metrics)
+- [Results](#-results)
+- [Technologies Used](#-technologies-used)
+- [Installation](#-installation)
+- [Project Structure](#-project-structure)
+- [Future Improvements](#-future-improvements)
+
+---
+
 # 🎯 Objectives
 
 - Predict whether a patient is:
@@ -42,35 +60,6 @@ Six different machine learning algorithms were implemented and compared to deter
 - Analyze the influence of medical features on diabetes prediction.
 
 - Optimize model performance using GridSearchCV.
-
----
-
-# 📂 Dataset
-
-The dataset contains **1000 patient records** collected from medical examinations.
-
-### Features
-
-| Feature | Description |
-|----------|-------------|
-| Gender | Patient Gender |
-| AGE | Age |
-| Urea | Blood Urea |
-| Cr | Creatinine |
-| HbA1c | Average Blood Sugar |
-| Chol | Cholesterol |
-| TG | Triglycerides |
-| HDL | Good Cholesterol |
-| LDL | Bad Cholesterol |
-| VLDL | Very Low Density Lipoprotein |
-| BMI | Body Mass Index |
-| CLASS | Target Variable |
-
-Target Classes
-
-- N → Normal
-- P → Prediabetes
-- Y → Diabetes
 
 ---
 
@@ -104,11 +93,6 @@ The dataset contains demographic information together with clinical and laborato
 | **VLDL** | Numerical | Very-low-density lipoprotein | Associated with lipid metabolism disorders |
 | **BMI** | Numerical | Body Mass Index (kg/m²) | Strong indicator of obesity and diabetes risk |
 | **CLASS** | Target | Diabetes classification (N, P, Y) | Variable predicted by the machine learning models |
-
-> **Note**
->
-> - The **ID** and **No_Pation** columns were excluded before model training because they are unique identifiers and do not contribute to prediction.
-> - All predictive models were trained using the remaining medical and demographic features.
 
 ---
 
@@ -166,20 +150,15 @@ flowchart TD
 
 Several visualization techniques were used to better understand the dataset.
 
-✔ Histograms
+### Exploratory Analysis Included
 
-✔ Boxplots
-
-✔ Violin Plots
-
-✔ Correlation Heatmaps
-
-✔ Pairplots
-
-✔ Regression Plots
-
-✔ Class Distribution
-
+- 📊 Histograms
+- 📦 Boxplots
+- 🎻 Violin Plots
+- 🔥 Correlation Heatmap
+- 🔗 Pairplots
+- 📈 Regression Plots
+- 📉 Class Distribution
 ---
 
 ## 📷 Dataset Overview
@@ -252,14 +231,12 @@ The following preprocessing techniques were applied:
 
 The following algorithms were implemented.
 
-| Model | Hyperparameter Tuning |
-|--------|----------------------|
-| Decision Tree | ✅ |
-| Logistic Regression | ✅ |
-| Random Forest | ✅ |
-| Support Vector Machine | ✅ |
-| K-Nearest Neighbors | ✅ |
-| Gaussian Naive Bayes | Cross Validation |
+Decision Tree        GridSearchCV
+Random Forest        GridSearchCV
+Logistic Regression  GridSearchCV
+SVM                  GridSearchCV
+KNN                  GridSearchCV
+Gaussian NB          Stratified 5-Fold CV
 
 ---
 
@@ -325,14 +302,14 @@ Decision Tree and Logistic Regression were used to analyze feature importance.
 
 # 📋 Technologies Used
 
-- Python
-- Pandas
-- NumPy
-- Matplotlib
-- Seaborn
-- Scikit-Learn
-- Imbalanced-Learn
-- Jupyter Notebook
+| Category | Libraries |
+|----------|-----------|
+| Programming | Python |
+| Data Analysis | Pandas, NumPy |
+| Visualization | Matplotlib, Seaborn |
+| Machine Learning | Scikit-Learn |
+| Imbalanced Learning | Imbalanced-Learn |
+| Development Environment | Jupyter Notebook |
 
 ---
 
@@ -399,8 +376,25 @@ Diabetes-Prediction-ML
 
 # 📌 Results
 
-After comparing six machine learning algorithms, the optimized models demonstrated strong predictive performance for diabetes classification.
+# 📊 Model Performance Comparison
 
-Hyperparameter tuning and cross-validation significantly improved the overall performance and robustness of the classifiers.
+The performance of each machine learning model was evaluated using **Accuracy**, **Precision**, **Recall**, and **F1 Score** on the test dataset.
+
+| Model | Accuracy | Precision | Recall | F1 Score |
+|:------|---------:|----------:|--------:|---------:|
+| 🌳 Decision Tree | **99.33%** | **99.34%** | **99.33%** | **99.31%** |
+| 📈 Logistic Regression | 94.67% | 93.68% | 94.67% | 93.64% |
+| 🌲 Random Forest | **99.33%** | **99.34%** | **99.33%** | **99.31%** |
+| ⚙️ Support Vector Machine (SVM) | 95.33% | 94.81% | 95.33% | 94.72% |
+| 👥 K-Nearest Neighbors (KNN) | 92.23% | 94.72% | 90.53% | 93.72% |
+| 🧠 Gaussian Naive Bayes* | 92.50% | 80.12% | 88.67% | 83.49% |
+
+---
+
+## 📌 Conclusion
+
+This project demonstrates an end-to-end machine learning pipeline for diabetes prediction, covering data preprocessing, exploratory data analysis, feature engineering, model training, hyperparameter optimization, and performance evaluation.
+
+Among the evaluated algorithms, the best-performing model achieved the highest predictive performance after hyperparameter tuning using GridSearchCV. The results highlight the effectiveness of combining proper preprocessing, balanced data handling, and model optimization for healthcare classification tasks.
 
 ---
