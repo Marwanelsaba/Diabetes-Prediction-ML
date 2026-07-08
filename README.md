@@ -386,7 +386,7 @@ The performance of each machine learning model was evaluated using **Accuracy**,
 | 📈 Logistic Regression | 94.67% | 93.68% | 94.67% | 93.64% |
 | 🌲 Random Forest | **99.33%** | **99.34%** | **99.33%** | **99.31%** |
 | ⚙️ Support Vector Machine (SVM) | 95.33% | 94.81% | 95.33% | 94.72% |
-| 👥 K-Nearest Neighbors (KNN) | 92.23% | 94.72% | 90.53% | 93.72% |
+| 👥 K-Nearest Neighbors (KNN) | 88.23% | 84.72% | 83.53% | 82.69% |
 | 🧠 Gaussian Naive Bayes* | 92.50% | 80.12% | 88.67% | 83.49% |
 
 ---
