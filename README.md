@@ -72,7 +72,7 @@ The dataset contains 14 columns, including two identifier fields, 11 predictive 
 The dataset is imbalanced, with substantially more diabetic records than prediabetic and non-diabetic records. For this reason, model selection does not rely on accuracy alone.
 
 <p align="center">
-  <img src="figures/class_distribution.png" alt="Diabetes class distribution" width="650">
+  <img src="images/class_distribution.png" alt="Diabetes class distribution" width="650">
 </p>
 
 ## Machine-Learning Workflow
@@ -110,7 +110,7 @@ The notebook includes:
 - Pair plots and regression plots for selected clinical measurements.
 
 <p align="center">
-  <img src="figures/correlation_heatmap.png" alt="Feature correlation heatmap" width="760">
+  <img src="images/correlation_heatmap.png" alt="Feature correlation heatmap" width="760">
 </p>
 
 ## Machine-Learning Models
@@ -139,7 +139,7 @@ Because the target classes are imbalanced, the notebook reports several compleme
 - **Confusion matrix:** Shows exactly which classes are confused.
 
 <p align="center">
-  <img src="figures/model_performance_comparison.png" alt="Model performance comparison" width="850">
+  <img src="images/model_performance_comparison.png" alt="Model performance comparison" width="850">
 </p>
 
 ### Why Macro F1 Matters
@@ -153,7 +153,7 @@ The prediabetic class is much smaller than the diabetic class. A model could ach
 ROC curves are calculated using a one-vs-rest strategy for the three target classes.
 
 <p align="center">
-  <img src="figures/multiclass_roc_curves.png" alt="Multiclass ROC curves" width="850">
+  <img src="images/multiclass_roc_curves.png" alt="Multiclass ROC curves" width="850">
 </p>
 
 ### Precision–Recall Curves
@@ -161,7 +161,7 @@ ROC curves are calculated using a one-vs-rest strategy for the three target clas
 Precision–recall curves are especially useful for evaluating performance on the smaller classes.
 
 <p align="center">
-  <img src="figures/precision_recall_curves.png" alt="Precision recall curves" width="850">
+  <img src="images/precision_recall_curves.png" alt="Precision recall curves" width="850">
 </p>
 
 ## Repository Structure
