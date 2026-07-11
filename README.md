@@ -1,400 +1,271 @@
-# 🩺 Diabetes Prediction Using Machine Learning
+<div align="center">
 
-![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python)
-![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-ML-orange?logo=scikitlearn)
-![Pandas](https://img.shields.io/badge/Pandas-Data%20Analysis-150458?logo=pandas)
-![NumPy](https://img.shields.io/badge/NumPy-Scientific%20Computing-013243?logo=numpy)
-![Matplotlib](https://img.shields.io/badge/Matplotlib-Visualization-green)
-![Seaborn](https://img.shields.io/badge/Seaborn-Statistical%20Plots-blue)
-![License](https://img.shields.io/badge/License-MIT-success)
+# Diabetes Prediction Using Machine Learning
 
----
+### A multiclass machine-learning study for identifying non-diabetic, prediabetic, and diabetic patient profiles
 
-## 📖 Project Overview
+![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
+![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-F37626?logo=jupyter&logoColor=white)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-ML-F7931E?logo=scikitlearn&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Completed-2ea44f)
 
-This project presents an **end-to-end Machine Learning pipeline** for predicting diabetes using patient medical records.
+[Project Overview](#project-overview) •
+[Models](#machine-learning-models) •
+[Evaluation](#model-evaluation) •
+[Run Locally](#getting-started) •
+[Visualizations](#visualizations)
 
-The project demonstrates the complete machine learning workflow, including:
-
-- Data Cleaning
-- Exploratory Data Analysis (EDA)
-- Feature Engineering
-- Data Preprocessing
-- Outlier Detection
-- Hyperparameter Optimization
-- Cross Validation
-- Model Evaluation
-- Model Comparison
-
-Six different machine learning algorithms were implemented and compared to determine the best-performing classifier for diabetes prediction.
+</div>
 
 ---
 
-## 📑 Table of Contents
+## Project Overview
 
-- [Objectives](#-objectives)
-- [Dataset](#-dataset)
-- [Project Workflow](#-project-workflow)
-- [Exploratory Data Analysis](#-exploratory-data-analysis)
-- [Data Preprocessing](#-data-preprocessing)
-- [Machine Learning Models](#-machine-learning-models)
-- [Hyperparameter Optimization](#-hyperparameter-optimization)
-- [Evaluation Metrics](#-model-evaluation-metrics)
-- [Results](#-results)
-- [Technologies Used](#-technologies-used)
-- [Installation](#-installation)
-- [Project Structure](#-project-structure)
-- [Future Improvements](#-future-improvements)
+This project develops and compares multiple machine-learning models for multiclass diabetes prediction using demographic information and clinical measurements.
 
----
+The prediction target contains three classes:
 
-# 🎯 Objectives
+| Label | Meaning |
+|:---:|---|
+| `N` | Non-diabetic |
+| `P` | Prediabetic |
+| `Y` | Diabetic |
 
-- Predict whether a patient is:
-  - Normal
-  - Prediabetic
-  - Diabetic
+The notebook covers the complete workflow: data inspection, cleaning, exploratory analysis, outlier detection, preprocessing, model training, hyperparameter tuning, evaluation, and visualization.
 
-- Compare multiple machine learning algorithms.
+> **Important:** This project is intended for educational and research purposes only. It is not a medical diagnostic system and should not replace professional medical advice.
 
-- Analyze the influence of medical features on diabetes prediction.
+## Project Highlights
 
-- Optimize model performance using GridSearchCV.
+- Analyzes **1,000 patient records** with demographic and laboratory measurements.
+- Cleans inconsistent class and gender labels.
+- Checks missing values, distributions, correlations, outliers, and class imbalance.
+- Prevents identical feature profiles from appearing in both training and testing data.
+- Uses preprocessing pipelines to avoid data leakage during training and cross-validation.
+- Compares **nine classification models** using imbalance-aware metrics.
+- Includes multiclass ROC and precision–recall curves.
+- Uses group-aware cross-validation for more trustworthy model evaluation.
 
----
+## Dataset
 
-# 📂 Dataset
+The dataset contains 14 columns, including two identifier fields, 11 predictive features, and one target column.
 
-The dataset contains **1000 patient records** collected from medical examinations.
+| Feature | Description |
+|---|---|
+| `Gender` | Patient gender |
+| `AGE` | Patient age |
+| `Urea` | Blood urea measurement |
+| `Cr` | Creatinine level |
+| `HbA1c` | Average blood glucose indicator |
+| `Chol` | Total cholesterol |
+| `TG` | Triglycerides |
+| `HDL` | High-density lipoprotein cholesterol |
+| `LDL` | Low-density lipoprotein cholesterol |
+| `VLDL` | Very-low-density lipoprotein cholesterol |
+| `BMI` | Body mass index |
+| `CLASS` | Diabetes classification target |
 
-### Target Classes
+`ID` and `No_Pation` are treated as identifiers and are not used as predictive medical features.
 
-- **N** → Normal
-- **P** → Prediabetic
-- **Y** → Diabetic
+### Class Distribution
 
----
+The dataset is imbalanced, with substantially more diabetic records than prediabetic and non-diabetic records. For this reason, model selection does not rely on accuracy alone.
 
-## 📋 Dataset Feature Definitions
+<p align="center">
+  <img src="figures/class_distribution.png" alt="Diabetes class distribution" width="650">
+</p>
 
-The dataset contains demographic information together with clinical and laboratory measurements commonly used to assess diabetes and related metabolic conditions.
-
-| Feature | Type | Description | Importance |
-|---------|------|-------------|------------|
-| **Gender** | Categorical | Patient's biological sex | Influences metabolism and diabetes risk |
-| **AGE** | Numerical | Patient age (years) | Diabetes risk generally increases with age |
-| **Urea** | Numerical | Blood urea concentration | Reflects kidney function |
-| **Cr** | Numerical | Blood creatinine level | Important indicator of kidney health |
-| **HbA1c** | Numerical | Average blood glucose over the previous 2–3 months | Primary clinical indicator for diabetes diagnosis |
-| **Chol** | Numerical | Total cholesterol level | Associated with cardiovascular complications |
-| **TG** | Numerical | Triglyceride concentration | Elevated values are linked to metabolic syndrome |
-| **HDL** | Numerical | High-density lipoprotein ("good" cholesterol) | Lower levels increase cardiovascular risk |
-| **LDL** | Numerical | Low-density lipoprotein ("bad" cholesterol) | Higher levels contribute to heart disease risk |
-| **VLDL** | Numerical | Very-low-density lipoprotein | Associated with lipid metabolism disorders |
-| **BMI** | Numerical | Body Mass Index (kg/m²) | Strong indicator of obesity and diabetes risk |
-| **CLASS** | Target | Diabetes classification (N, P, Y) | Variable predicted by the machine learning models |
-
----
-
-### 📊 Dataset Summary
-
-| Property | Value |
-|----------|------:|
-| Number of Samples | **1000** |
-| Predictive Features | **11** |
-| Target Classes | **3** |
-| Numerical Features | **10** |
-| Categorical Features | **1** |
-| Missing Values | **0** |
-| Duplicate Records | **0** |
-
----
-
-## 🏗️ Project Workflow
+## Machine-Learning Workflow
 
 ```mermaid
 flowchart TD
-
-    A["📄 Diabetes.csv"] --> B["🔍 Data Inspection<br/>Missing Values, Duplicates,<br/>Data Types"]
-
-    B --> C["🧹 Data Cleaning<br/>Normalize CLASS & Gender<br/>Remove Invalid Values"]
-
-    C --> D["📊 Exploratory Data Analysis (EDA)<br/>Histograms, Boxplots,<br/>Correlation Heatmap,<br/>Regression & Pair Plots"]
-
-    D --> E["⚙️ Feature Engineering<br/>Encoding<br/>Scaling<br/>Discretization"]
-
-    E --> F["✂️ Stratified Train/Test Split<br/>85% Train • 15% Test"]
-
-    F --> G["⚖️ Handle Class Imbalance<br/>SMOTE Oversampling"]
-
-    G --> H["🤖 Machine Learning Models<br/>Decision Tree<br/>Logistic Regression<br/>Random Forest<br/>SVM<br/>KNN<br/>Naive Bayes"]
-
-    H --> I["🔧 Hyperparameter Optimization<br/>GridSearchCV<br/>5-Fold Cross Validation"]
-
-    I --> J["📈 Model Evaluation<br/>Accuracy<br/>Precision<br/>Recall<br/>F1 Score<br/>Confusion Matrix"]
-
-    J --> K["📊 Feature Importance<br/>Decision Tree<br/>Logistic Regression"]
-
-    K --> L["🏆 Performance Comparison<br/>Select Best Model"]
-
-    style A fill:#E3F2FD,stroke:#1565C0
-    style D fill:#FFF3E0,stroke:#EF6C00
-    style F fill:#E8F5E9,stroke:#2E7D32
-    style G fill:#FFF8E1,stroke:#F9A825
-    style H fill:#EDE7F6,stroke:#5E35B1
-    style I fill:#FCE4EC,stroke:#AD1457
-    style J fill:#E0F7FA,stroke:#00838F
-    style L fill:#C8E6C9,stroke:#1B5E20
-```
-# 🔍 Exploratory Data Analysis
-
-Several visualization techniques were used to better understand the dataset.
-
-### Exploratory Analysis Included
-
-- 📊 Histograms
-- 📦 Boxplots
-- 🎻 Violin Plots
-- 🔥 Correlation Heatmap
-- 🔗 Pairplots
-- 📈 Regression Plots
-- 📉 Class Distribution
----
-
-## 📷 Dataset Overview
-
-<img src="images/dataset_preview.png" width="900">
-
----
-
-## 📷 Class Distribution
-
-<p align="center">
-<img src="images/class_distribution.png" width="750">
-</p>
-
----
-
-## 📷 Correlation Heatmap
-
-<p align="center">
-<img src="images/correlation_heatmap.png" width="850">
-</p>
-
----
-
-## 📷 Feature Relationships
-
-The following regression plots illustrate relationships between key medical features associated with diabetes.
-
-<p align="center">
-  <img src="images/pairplot1.png" width="45%">
-  <img src="images/pairplot2.png" width="45%">
-</p>
-
-<p align="center">
-  <img src="images/pairplot3.png" width="45%">
-  <img src="images/pairplot4.png" width="45%">
-</p>
-
-<p align="center">
-  <img src="images/pairplot5.png" width="45%">
-</p>
-
----
-
-## 📷 Boxplots & Violin Plots
-
-<p align="center">
-<img src="figures/hba1c_class.png" width="800">
-</p>
-
----
-
-# ⚙ Data Preprocessing
-
-The following preprocessing techniques were applied:
-
-- Missing Value Checking
-- Duplicate Detection
-- Label Encoding
-- One-Hot Encoding
-- Standard Scaling
-- Min-Max Scaling
-- KBins Discretization
-- SMOTE Oversampling
-- Stratified Train/Test Split
-
----
-
-# 🤖 Machine Learning Models
-
-The following algorithms were implemented.
-
-Decision Tree        GridSearchCV
-Random Forest        GridSearchCV
-Logistic Regression  GridSearchCV
-SVM                  GridSearchCV
-KNN                  GridSearchCV
-Gaussian NB          Stratified 5-Fold CV
-
----
-
-# 🔧 Hyperparameter Optimization
-
-GridSearchCV was used for model optimization.
-
-Example:
-
-```
-5-fold Cross Validation
-
-↓
-
-72 Parameter Combinations
-
-↓
-
-360 Model Fits
-
-↓
-
-Best Model Selected
+    A[Load dataset] --> B[Clean and validate data]
+    B --> C[Exploratory analysis]
+    C --> D[Leakage-safe grouped split]
+    D --> E[Scaling and encoding pipeline]
+    E --> F[Model training and tuning]
+    F --> G[Holdout evaluation]
+    G --> H[ROC, PR, and comparison charts]
 ```
 
----
+### Preprocessing
 
-# 📈 Model Evaluation Metrics
+- Whitespace and capitalization are standardized in categorical values.
+- Identifier columns are excluded from model training.
+- Numerical features are standardized inside each model pipeline.
+- Gender is one-hot encoded with unknown-category handling.
+- Identical patient feature profiles are grouped during splitting to prevent train–test overlap.
+- Hyperparameter searches use stratified, group-aware cross-validation.
 
-Each model was evaluated using
+## Exploratory Data Analysis
 
-- Accuracy
+The notebook includes:
 
-- Precision
-
-- Recall
-
-- F1 Score
-
-- Confusion Matrix
-
-- Cross Validation
-
----
-
-# 📷 Confusion Matrix Example
-
-<p align="center">
-<img src="images/confusion_matrix.png" width="650">
-</p>
-
----
-
-# 📊 Feature Importance
-
-Decision Tree and Logistic Regression were used to analyze feature importance.
+- Summary statistics for numerical and categorical variables.
+- Feature distributions and skewness.
+- Boxplots and IQR-based outlier counts.
+- DBSCAN-based multivariate outlier detection.
+- Correlation heatmap.
+- Class-level boxplots and violin plots.
+- Pair plots and regression plots for selected clinical measurements.
 
 <p align="center">
-<img src="images/feature_importance.png" width="800">
+  <img src="figures/correlation_heatmap.png" alt="Feature correlation heatmap" width="760">
 </p>
 
----
+## Machine-Learning Models
 
-# 📋 Technologies Used
+| Model | Category | Main Purpose |
+|---|---|---|
+| Decision Tree | Tree-based | Interpretable decision rules and feature importance |
+| Logistic Regression | Linear | Explainable multiclass baseline |
+| Support Vector Machine | Kernel-based | Nonlinear decision boundaries |
+| Random Forest | Bagging ensemble | Stable nonlinear classification |
+| Gaussian Naive Bayes | Probabilistic | Fast probability-based baseline |
+| K-Nearest Neighbors | Instance-based | Similarity-based classification |
+| Extra Trees | Randomized ensemble | Strong variance reduction and nonlinear learning |
+| Gradient Boosting | Boosting ensemble | Sequential correction of prediction errors |
+| Histogram Gradient Boosting | Boosting ensemble | Efficient class-balanced nonlinear learning |
 
-| Category | Libraries |
-|----------|-----------|
-| Programming | Python |
-| Data Analysis | Pandas, NumPy |
-| Visualization | Matplotlib, Seaborn |
-| Machine Learning | Scikit-Learn |
-| Imbalanced Learning | Imbalanced-Learn |
-| Development Environment | Jupyter Notebook |
+## Model Evaluation
 
----
+Because the target classes are imbalanced, the notebook reports several complementary metrics:
 
-# 📦 Installation
+- **Accuracy:** Overall percentage of correct predictions.
+- **Balanced accuracy:** Average recall across all classes.
+- **Macro F1:** Gives equal importance to every class.
+- **Macro ROC-AUC:** Measures one-vs-rest ranking performance across classes.
+- **Macro average precision:** Summarizes precision–recall performance across classes.
+- **Confusion matrix:** Shows exactly which classes are confused.
 
-Clone the repository
+<p align="center">
+  <img src="figures/model_performance_comparison.png" alt="Model performance comparison" width="850">
+</p>
 
-```bash
-git clone https://github.com/Marwanelsaba/Diabetes-Prediction-ML.git
-```
+### Why Macro F1 Matters
 
-Move into the project
+The prediabetic class is much smaller than the diabetic class. A model could achieve high accuracy while still performing poorly on prediabetic patients, whereas macro F1 gives every class equal weight.
 
-```bash
-cd Diabetes-Prediction-ML
-```
+## Visualizations
 
-Install dependencies
+### Multiclass ROC Curves
 
-```bash
-pip install -r requirements.txt
-```
+ROC curves are calculated using a one-vs-rest strategy for the three target classes.
 
-Run the notebook
+<p align="center">
+  <img src="figures/multiclass_roc_curves.png" alt="Multiclass ROC curves" width="850">
+</p>
 
-```bash
-jupyter notebook diabetes_prediction.ipynb
-```
+### Precision–Recall Curves
 
----
+Precision–recall curves are especially useful for evaluating performance on the smaller classes.
 
-# 📁 Project Structure
+<p align="center">
+  <img src="figures/precision_recall_curves.png" alt="Precision recall curves" width="850">
+</p>
 
-```
-Diabetes-Prediction-ML
-│
+## Repository Structure
+
+```text
+Diabetes-Prediction/
+├── Diabetes.csv
+├── diabetes_prediction_extended.ipynb
 ├── figures/
-│
-├── data/
-│   └── Diabetes.csv
-│
-├── diabetes_prediction.ipynb
-│
-├── README.md
-│
-└── requirements.txt
+│   ├── class_distribution.png
+│   ├── correlation_heatmap.png
+│   ├── model_performance_comparison.png
+│   ├── multiclass_roc_curves.png
+│   └── precision_recall_curves.png
+└── README.md
 ```
 
+## Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/Omartariq22/Diabetes-Prediction.git
+cd Diabetes-Prediction
+```
+
+### 2. Create a virtual environment
+
+#### Windows
+
+```powershell
+python -m venv .venv
+.venv\Scripts\activate
+```
+
+#### macOS or Linux
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+### 3. Install the required packages
+
+```bash
+pip install pandas numpy matplotlib seaborn scikit-learn jupyter
+```
+
+### 4. Run the notebook
+
+```bash
+jupyter notebook diabetes_prediction_extended.ipynb
+```
+
+You can also open the repository in VS Code, select the `.venv` Python kernel, and run the notebook from top to bottom.
+
+> Keep `Diabetes.csv` in the same folder as the notebook so the dataset loads correctly.
+
+## Adding the Images to GitHub
+
+1. Create a folder named `figures` in the project root.
+2. Export the corresponding notebook graphs using the filenames shown below.
+3. Commit and push the `figures` folder with the README.
+
+```python
+plt.savefig(
+    "figures/model_performance_comparison.png",
+    dpi=300,
+    bbox_inches="tight",
+)
+plt.show()
+```
+
+Use these exact filenames so the images appear automatically in the README:
+
+```text
+class_distribution.png
+correlation_heatmap.png
+model_performance_comparison.png
+multiclass_roc_curves.png
+precision_recall_curves.png
+```
+
+## Limitations
+
+- The dataset is relatively small and strongly imbalanced.
+- Some records contain identical clinical feature profiles.
+- Results are based on one dataset and should be validated on external patient populations.
+- Outlier detection identifies unusual observations but does not determine whether they are measurement errors.
+- High predictive performance does not establish clinical validity or causality.
+
+## Future Improvements
+
+- Add external validation using a separate clinical dataset.
+- Calibrate predicted probabilities.
+- Add SHAP-based local and global explanations.
+- Investigate threshold tuning for the prediabetic class.
+- Add automated tests and a reproducible `requirements.txt` file.
+- Deploy the selected model through a Streamlit or FastAPI interface.
+
 ---
 
-# 🚀 Future Improvements
+<div align="center">
 
-- Deep Learning Models
-- XGBoost
-- LightGBM
-- CatBoost
-- SHAP Explainability
-- Streamlit Deployment
-- Flask REST API
-- Feature Selection
-- Automated ML Pipeline
+If you found this project useful, consider giving the repository a ⭐
 
----
-
-# 📌 Results
-
-# 📊 Model Performance Comparison
-
-The performance of each machine learning model was evaluated using **Accuracy**, **Precision**, **Recall**, and **F1 Score** on the test dataset.
-
-| Model | Accuracy | Precision | Recall | F1 Score |
-|:------|---------:|----------:|--------:|---------:|
-| 🌳 Decision Tree | **99.33%** | **99.34%** | **99.33%** | **99.31%** |
-| 📈 Logistic Regression | 94.67% | 93.68% | 94.67% | 93.64% |
-| 🌲 Random Forest | **99.33%** | **99.34%** | **99.33%** | **99.31%** |
-| ⚙️ Support Vector Machine (SVM) | 95.33% | 94.81% | 95.33% | 94.72% |
-| 👥 K-Nearest Neighbors (KNN) | 88.23% | 84.72% | 83.53% | 82.69% |
-| 🧠 Gaussian Naive Bayes* | 92.50% | 80.12% | 88.67% | 83.49% |
-
----
-
-## 📌 Conclusion
-
-This project demonstrates an end-to-end machine learning pipeline for diabetes prediction, covering data preprocessing, exploratory data analysis, feature engineering, model training, hyperparameter optimization, and performance evaluation.
-
-Among the evaluated algorithms, the best-performing model achieved the highest predictive performance after hyperparameter tuning using GridSearchCV. The results highlight the effectiveness of combining proper preprocessing, balanced data handling, and model optimization for healthcare classification tasks.
-
----
+</div>
