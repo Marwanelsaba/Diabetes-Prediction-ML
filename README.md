@@ -2,18 +2,19 @@
 
 # Diabetes Prediction Using Machine Learning
 
-### A multiclass machine-learning study for identifying non-diabetic, prediabetic, and diabetic patient profiles
+### Multiclass prediction of non-diabetic, prediabetic, and diabetic patient profiles
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
 ![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-F37626?logo=jupyter&logoColor=white)
-![scikit-learn](https://img.shields.io/badge/scikit--learn-ML-F7931E?logo=scikitlearn&logoColor=white)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-Machine%20Learning-F7931E?logo=scikitlearn&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Completed-2ea44f)
 
-[Project Overview](#project-overview) •
+[Overview](#project-overview) •
+[Dataset](#dataset) •
 [Models](#machine-learning-models) •
 [Evaluation](#model-evaluation) •
-[Run Locally](#getting-started) •
-[Visualizations](#visualizations)
+[Visualizations](#visualizations) •
+[Installation](#getting-started)
 
 </div>
 
@@ -31,24 +32,41 @@ The prediction target contains three classes:
 | `P` | Prediabetic |
 | `Y` | Diabetic |
 
-The notebook covers the complete workflow: data inspection, cleaning, exploratory analysis, outlier detection, preprocessing, model training, hyperparameter tuning, evaluation, and visualization.
+The notebook covers the complete machine-learning workflow:
 
-> **Important:** This project is intended for educational and research purposes only. It is not a medical diagnostic system and should not replace professional medical advice.
+- Data loading and validation
+- Data cleaning
+- Exploratory data analysis
+- Outlier detection
+- Feature preprocessing
+- Leakage-safe data splitting
+- Model training
+- Hyperparameter tuning
+- Model evaluation
+- ROC and precision–recall analysis
+
+> **Disclaimer:** This project is intended for educational and research purposes only. It is not a medical diagnostic system and should not replace professional medical advice.
 
 ## Project Highlights
 
-- Analyzes **1,000 patient records** with demographic and laboratory measurements.
+- Analyzes **1,000 patient records**.
+- Uses demographic and laboratory measurements.
 - Cleans inconsistent class and gender labels.
-- Checks missing values, distributions, correlations, outliers, and class imbalance.
+- Examines distributions, correlations, outliers, and class imbalance.
 - Prevents identical feature profiles from appearing in both training and testing data.
-- Uses preprocessing pipelines to avoid data leakage during training and cross-validation.
-- Compares **nine classification models** using imbalance-aware metrics.
+- Uses preprocessing pipelines to reduce data leakage.
+- Compares **nine classification models**.
+- Uses group-aware cross-validation.
 - Includes multiclass ROC and precision–recall curves.
-- Uses group-aware cross-validation for more trustworthy model evaluation.
+- Evaluates models using imbalance-aware metrics.
 
 ## Dataset
 
-The dataset contains 14 columns, including two identifier fields, 11 predictive features, and one target column.
+The dataset contains 14 columns:
+
+- Two identifier columns
+- Eleven predictive features
+- One target column
 
 | Feature | Description |
 |---|---|
@@ -65,86 +83,112 @@ The dataset contains 14 columns, including two identifier fields, 11 predictive 
 | `BMI` | Body mass index |
 | `CLASS` | Diabetes classification target |
 
-`ID` and `No_Pation` are treated as identifiers and are not used as predictive medical features.
+`ID` and `No_Pation` are treated as identifiers and are excluded from model training.
 
-### Class Distribution
+### Class Imbalance
 
-The dataset is imbalanced, with substantially more diabetic records than prediabetic and non-diabetic records. For this reason, model selection does not rely on accuracy alone.
+The dataset contains significantly more diabetic records than non-diabetic and prediabetic records.
 
-<p align="center">
-  <img src="images/class_distribution.png" alt="Diabetes class distribution" width="650">
-</p>
+Because of this imbalance, model selection does not rely on accuracy alone. Balanced accuracy, macro F1, ROC-AUC, and average precision are also considered.
 
 ## Machine-Learning Workflow
 
 ```mermaid
 flowchart TD
     A[Load dataset] --> B[Clean and validate data]
-    B --> C[Exploratory analysis]
-    C --> D[Leakage-safe grouped split]
-    D --> E[Scaling and encoding pipeline]
-    E --> F[Model training and tuning]
-    F --> G[Holdout evaluation]
-    G --> H[ROC, PR, and comparison charts]
+    B --> C[Exploratory data analysis]
+    C --> D[Detect unusual observations]
+    D --> E[Leakage-safe grouped split]
+    E --> F[Scaling and encoding]
+    F --> G[Train and tune models]
+    G --> H[Evaluate on test data]
+    H --> I[ROC and precision-recall analysis]
 ```
 
-### Preprocessing
+## Data Preprocessing
 
-- Whitespace and capitalization are standardized in categorical values.
-- Identifier columns are excluded from model training.
-- Numerical features are standardized inside each model pipeline.
-- Gender is one-hot encoded with unknown-category handling.
-- Identical patient feature profiles are grouped during splitting to prevent train–test overlap.
-- Hyperparameter searches use stratified, group-aware cross-validation.
+The preprocessing workflow includes:
+
+- Removing unnecessary whitespace from categorical values.
+- Converting class and gender labels to consistent uppercase values.
+- Excluding identifier columns from model training.
+- Standardizing numerical measurements.
+- One-hot encoding the gender column.
+- Handling previously unseen categories.
+- Grouping identical feature profiles during splitting.
+- Applying preprocessing inside each model pipeline.
+- Using stratified, group-aware cross-validation.
 
 ## Exploratory Data Analysis
 
-The notebook includes:
+The notebook performs:
 
-- Summary statistics for numerical and categorical variables.
-- Feature distributions and skewness.
-- Boxplots and IQR-based outlier counts.
-- DBSCAN-based multivariate outlier detection.
-- Correlation heatmap.
-- Class-level boxplots and violin plots.
-- Pair plots and regression plots for selected clinical measurements.
+- Numerical and categorical summary statistics
+- Missing-value inspection
+- Feature-distribution analysis
+- Skewness calculation
+- Boxplot visualization
+- IQR-based outlier detection
+- DBSCAN-based multivariate outlier detection
+- Correlation analysis
+- Class-level violin plots
+- Pair plots
+- Regression plots
+
+### Clinical Feature Distributions by Class
 
 <p align="center">
-  <img src="images/correlation_heatmap.png" alt="Feature correlation heatmap" width="760">
+  <img src="figures/hba1c_class.png" alt="HbA1c distribution by diabetes class" width="47%">
+  <img src="figures/bmi_class.png" alt="BMI distribution by diabetes class" width="47%">
+</p>
+
+<p align="center">
+  <img src="figures/chol_class.png" alt="Cholesterol distribution by diabetes class" width="47%">
+  <img src="figures/ldl_class.png" alt="LDL distribution by diabetes class" width="47%">
+</p>
+
+<p align="center">
+  <img src="figures/urea_class.png" alt="Urea distribution by diabetes class" width="60%">
 </p>
 
 ## Machine-Learning Models
 
+Nine classification models are trained and compared.
+
 | Model | Category | Main Purpose |
 |---|---|---|
-| Decision Tree | Tree-based | Interpretable decision rules and feature importance |
-| Logistic Regression | Linear | Explainable multiclass baseline |
-| Support Vector Machine | Kernel-based | Nonlinear decision boundaries |
-| Random Forest | Bagging ensemble | Stable nonlinear classification |
-| Gaussian Naive Bayes | Probabilistic | Fast probability-based baseline |
-| K-Nearest Neighbors | Instance-based | Similarity-based classification |
-| Extra Trees | Randomized ensemble | Strong variance reduction and nonlinear learning |
-| Gradient Boosting | Boosting ensemble | Sequential correction of prediction errors |
-| Histogram Gradient Boosting | Boosting ensemble | Efficient class-balanced nonlinear learning |
+| Decision Tree | Tree-based | Produces interpretable decision rules |
+| Logistic Regression | Linear | Provides an explainable multiclass baseline |
+| Support Vector Machine | Kernel-based | Learns nonlinear decision boundaries |
+| Random Forest | Bagging ensemble | Produces stable nonlinear predictions |
+| Gaussian Naive Bayes | Probabilistic | Provides a fast probabilistic baseline |
+| K-Nearest Neighbors | Instance-based | Classifies patients using similar records |
+| Extra Trees | Randomized ensemble | Reduces variance through randomized trees |
+| Gradient Boosting | Boosting ensemble | Corrects prediction errors sequentially |
+| Histogram Gradient Boosting | Boosting ensemble | Provides efficient class-balanced learning |
 
 ## Model Evaluation
 
-Because the target classes are imbalanced, the notebook reports several complementary metrics:
+The following metrics are used:
 
 - **Accuracy:** Overall percentage of correct predictions.
 - **Balanced accuracy:** Average recall across all classes.
 - **Macro F1:** Gives equal importance to every class.
-- **Macro ROC-AUC:** Measures one-vs-rest ranking performance across classes.
-- **Macro average precision:** Summarizes precision–recall performance across classes.
-- **Confusion matrix:** Shows exactly which classes are confused.
+- **Macro ROC-AUC:** Evaluates one-vs-rest ranking performance.
+- **Macro average precision:** Summarizes precision–recall performance.
+- **Confusion matrix:** Shows which classes are classified correctly or incorrectly.
+
+### Model Performance Comparison
 
 <p align="center">
-  <img src="images/model_performance_comparison.png" alt="Model performance comparison" width="850">
+  <img src="figures/mpc.png" alt="Machine-learning model performance comparison" width="850">
 </p>
 
 ### Why Macro F1 Matters
 
-The prediabetic class is much smaller than the diabetic class. A model could achieve high accuracy while still performing poorly on prediabetic patients, whereas macro F1 gives every class equal weight.
+The prediabetic class contains considerably fewer records than the diabetic class.
+
+A model could achieve high overall accuracy by predicting the majority class correctly while performing poorly on prediabetic patients. Macro F1 gives each class equal importance and provides a more balanced evaluation.
 
 ## Visualizations
 
@@ -152,16 +196,20 @@ The prediabetic class is much smaller than the diabetic class. A model could ach
 
 ROC curves are calculated using a one-vs-rest strategy for the three target classes.
 
+The curves show the relationship between the true positive rate and false positive rate at different classification thresholds.
+
 <p align="center">
-  <img src="images/multiclass_roc_curves.png" alt="Multiclass ROC curves" width="850">
+  <img src="figures/multiclass_roc_curves.png" alt="Multiclass ROC curves" width="850">
 </p>
 
 ### Precision–Recall Curves
 
-Precision–recall curves are especially useful for evaluating performance on the smaller classes.
+Precision–recall curves are particularly useful for this project because the target classes are imbalanced.
+
+They show the trade-off between precision and recall at different prediction thresholds.
 
 <p align="center">
-  <img src="images/precision_recall_curves.png" alt="Precision recall curves" width="850">
+  <img src="figures/precision_recall_curves.png" alt="Precision recall curves" width="850">
 </p>
 
 ## Repository Structure
@@ -169,26 +217,29 @@ Precision–recall curves are especially useful for evaluating performance on th
 ```text
 Diabetes-Prediction/
 ├── Diabetes.csv
-├── diabetes_prediction_extended.ipynb
+├── diabetes_prediction_final.ipynb
 ├── figures/
-│   ├── class_distribution.png
-│   ├── correlation_heatmap.png
-│   ├── model_performance_comparison.png
+│   ├── bmi_class.png
+│   ├── chol_class.png
+│   ├── hba1c_class.png
+│   ├── ldl_class.png
+│   ├── mpc.png
 │   ├── multiclass_roc_curves.png
-│   └── precision_recall_curves.png
+│   ├── precision_recall_curves.png
+│   └── urea_class.png
 └── README.md
 ```
 
 ## Getting Started
 
-### 1. Clone the repository
+### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/Omartariq22/Diabetes-Prediction.git
+git clone https://github.com/Marwanwagih/Diabetes-Prediction.git
 cd Diabetes-Prediction
 ```
 
-### 2. Create a virtual environment
+### 2. Create a Virtual Environment
 
 #### Windows
 
@@ -204,68 +255,77 @@ python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-### 3. Install the required packages
+### 3. Install the Required Packages
 
 ```bash
 pip install pandas numpy matplotlib seaborn scikit-learn jupyter
 ```
 
-### 4. Run the notebook
+### 4. Run the Notebook
 
 ```bash
-jupyter notebook diabetes_prediction_extended.ipynb
+jupyter notebook diabetes_prediction_final.ipynb
 ```
 
-You can also open the repository in VS Code, select the `.venv` Python kernel, and run the notebook from top to bottom.
+You can also open the repository in VS Code:
 
-> Keep `Diabetes.csv` in the same folder as the notebook so the dataset loads correctly.
+1. Open the `Diabetes-Prediction` folder.
+2. Open `diabetes_prediction_final.ipynb`.
+3. Select the `.venv` Python kernel.
+4. Run the notebook from top to bottom.
 
-## Adding the Images to GitHub
+> Keep `Diabetes.csv` in the same folder as the notebook.
 
-1. Create a folder named `figures` in the project root.
-2. Export the corresponding notebook graphs using the filenames shown below.
-3. Commit and push the `figures` folder with the README.
+## Key Design Decisions
 
-```python
-plt.savefig(
-    "figures/model_performance_comparison.png",
-    dpi=300,
-    bbox_inches="tight",
-)
-plt.show()
-```
+### Leakage Prevention
 
-Use these exact filenames so the images appear automatically in the README:
+Identical clinical feature profiles are kept in the same data partition to prevent the same information from appearing in both training and testing data.
 
-```text
-class_distribution.png
-correlation_heatmap.png
-model_performance_comparison.png
-multiclass_roc_curves.png
-precision_recall_curves.png
-```
+### Pipeline-Based Preprocessing
+
+Scaling and encoding are applied inside the model pipelines. This prevents information from the test set or validation folds from influencing preprocessing.
+
+### Imbalance-Aware Evaluation
+
+Balanced accuracy and macro F1 are emphasized because they treat the smaller non-diabetic and prediabetic classes more fairly than standard accuracy.
 
 ## Limitations
 
-- The dataset is relatively small and strongly imbalanced.
+- The dataset is relatively small.
+- The target classes are strongly imbalanced.
 - Some records contain identical clinical feature profiles.
-- Results are based on one dataset and should be validated on external patient populations.
-- Outlier detection identifies unusual observations but does not determine whether they are measurement errors.
-- High predictive performance does not establish clinical validity or causality.
+- The dataset may not represent patients from other populations.
+- Outlier detection cannot determine whether an unusual value is a genuine measurement or an error.
+- High predictive performance does not establish clinical validity.
+- The models have not been evaluated in a real clinical environment.
 
 ## Future Improvements
 
-- Add external validation using a separate clinical dataset.
-- Calibrate predicted probabilities.
-- Add SHAP-based local and global explanations.
-- Investigate threshold tuning for the prediabetic class.
-- Add automated tests and a reproducible `requirements.txt` file.
-- Deploy the selected model through a Streamlit or FastAPI interface.
+- Validate the models using an external clinical dataset.
+- Apply probability calibration.
+- Add SHAP-based model explanations.
+- Tune decision thresholds for the prediabetic class.
+- Add automated data and model tests.
+- Create a reproducible `requirements.txt` file.
+- Deploy the selected model using Streamlit or FastAPI.
+- Add a web interface for entering patient measurements.
+- Monitor model performance and data drift.
+
+## Technologies Used
+
+- Python
+- pandas
+- NumPy
+- Matplotlib
+- Seaborn
+- scikit-learn
+- Jupyter Notebook
+- Git
+- GitHub
 
 ---
 
 <div align="center">
-
-If you found this project useful, consider giving the repository a ⭐
 
 </div>
