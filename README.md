@@ -45,7 +45,6 @@ The notebook covers the complete machine-learning workflow:
 - Model evaluation
 - ROC and precision–recall analysis
 
-> **Disclaimer:** This project is intended for educational and research purposes only. It is not a medical diagnostic system and should not replace professional medical advice.
 
 ## Project Highlights
 
